@@ -1,20 +1,20 @@
-def add_two(number):
-    """ A python function to add two to number
+def add_one(number):
+    """ A python function to add one to number
 
     Parameters
     ----------
     number: float/int
-        The number to add two too
+        The number to add one too
 
     Returns
     -------
-    number_plus_two: float/int
-        number + 2
+    number_plus_one: float/int
+        number + 1
 
     Examples
     --------
-    >>> add_two(1)
-    3
+    >>> add_one(1)
+    2
 
     """
     return number + 2

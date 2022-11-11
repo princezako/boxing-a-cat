@@ -13,9 +13,9 @@ class Environment():
     def __init__(self,x_min = -5,x_max = 5,t_min = 0,t_max = 20, Nx = 500, Nt = 250):
         # The x_min = -5 and so on ensures that the class always starts with a preset which can be modified by the user
         # in other words there are no problems if the user forgets to define one of the above
-        
+       
         # This sets up the x_array
-        self.x_min = x_min 
+        self.x_min = x_min
         self.x_max = x_max
         self.Nx = Nx
         self.x_array = np.linspace(x_min,x_max,Nx)
@@ -27,11 +27,11 @@ class Environment():
         # This ensures a potential is always generated initially so the user doesn't need to do anything fancy if they just
         # want a simple potential well
         self.potential = np.array(len(self.x_array)*[0])
-    
+   
     def zero_potential(self):
         # This is a simple function that sets everything to zero
         self.potential = np.array(len(self.x_array)*[0])
-    
+   
     def WritePotential(self,string):
         if string == str(string): # Error team needs to write a response if this isn't true
             # Error and annotation team also need to make sure that it's clear people only need to input functions like
@@ -42,14 +42,21 @@ class Environment():
             code = """def PotentialModifier(x):
     return """ + string
             exec(code, globals())
+            c = PotentialModifier(self.x.array[0])
+            if c != float(c) and c!=int(c):
+                raise TypeError("Your choice should not be an array.") #to make sure that the program does not return an array
+               
             self.potential = PotentialModifier(self.x_array)
-            
+           
+        else:
+            raise TypeError("Your potential should be a string, dependent on x, such as x**2 or np.sin(x) etc.") #if the choice of potential is not a string
+           
     def Make_gif(self):
         fig, ax = plt.subplots()
        
         ax.set_xlabel("x [arb units]")
         ax.set_ylabel("$|\Psi(x, t)|$", color="C0")
-        
+       
         ax_twin = ax.twinx()
         ax_twin.plot(self.x_array, self.potential, color="C1")
         ax_twin.set_ylabel("V(x) [arb units]", color="C1")
@@ -97,7 +104,7 @@ class Environment():
             self.psi = U.dot(self.psi)
             self.psi[0] = self.psi[-1] = 0
             self.psi_list.append(np.abs(self.psi))        
-                
+               
 # This is an example of how the code is used        
 Env1 = Environment()
 print(Env1.potential)

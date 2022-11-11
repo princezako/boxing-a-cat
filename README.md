@@ -1,6 +1,6 @@
 # Template repository for PH3010 Advanced Python
 
-This package provides solutions to Schrödinger's equation for a particle in a 1D infinite potential square well. The user should use the code by setting values for the minimum and maximum x-values for the position of the particle with variable names x_min and x_max. They should also set values for the minimum and maximum values of time with variables t_min and t_max as well as the total number of position and time values with variable names Nx and Nt. 
+This package provides solutions to Schrödinger's equation for a particle in a 1D infinite potential square well. The user should use the code by setting values for the minimum and maximum x-values for the position of the particle with variable names x_min and x_max. They should also set values for the minimum and maximum values of time with variables t_min and t_max as well as the total number of position and time values with variable names Nx and Nt. Also, the user should define the equation that is being used with the PotentialModifier(x) function, making sure that for each input of the equation there is only a singular value output. 
 
 This is a template repository demonstrating how to package a python project. The directory is structured as follows:
 ```

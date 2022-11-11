@@ -1,4 +1,5 @@
 # Template repository for PH3010 Advanced Python
+This is our boxing-a-cat package that can be used to give solutions to the 1D Schrödinger equation for a particle in a potential square-well. 
 
 This is a template repository demonstrating how to package a python project. The directory is structured as follows:
 ```

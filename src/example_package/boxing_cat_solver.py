@@ -43,6 +43,60 @@ class Environment():
     return """ + string
             exec(code, globals())
             self.potential = PotentialModifier(self.x_array)
+            
+    def Make_gif(self):
+        fig, ax = plt.subplots()
+       
+        ax.set_xlabel("x [arb units]")
+        ax.set_ylabel("$|\Psi(x, t)|$", color="C0")
+        
+        ax_twin = ax.twinx()
+        ax_twin.plot(self.x_array, self.potential, color="C1")
+        ax_twin.set_ylabel("V(x) [arb units]", color="C1")
+        if np.min(self.potential) != np.max(self.potential):
+            ax_twin.set_ylim(np.min(self.potential),np.max(self.potential))
+       
+        line, = ax.plot([], [], color="C0", lw=2)
+        ax.grid()
+        xdata, ydata = [], []
+ 
+        def run(psi):
+            line.set_data(self.x_array, np.abs(psi)**2)
+            return line,
+       
+        ax.set_xlim(self.x_array[0], self.x_array[-1])
+        ax.set_ylim(0, 1)
+       
+        ani = animation.FuncAnimation(fig, run, self.psi_list, interval = 20, blit = True)
+        writergif = animation.PillowWriter()
+        ani.save("new_gif.gif", writer=writergif)
+   
+    def solve_schrodinger(self, N = 100):
+        self.psi = np.exp(-(self.x_array+2)**2)
+       
+        #Calculate derivatives
+        dt = self.t_array[1] - self.t_array[0]
+        dx = self.x_array[1] - self.x_array[0]
+       
+        #Turn potential into a diagonal matrix
+        potential_matrix = diags(self.potential)
+       
+        #Calculate Hamiltonian matrix, apply boundary conditions
+        H = -0.5 * FinDiff(0,dx,2).matrix(self.x_array.shape) + potential_matrix
+       
+        H[0,:] = H[-1,:] = 0
+        H[0,0] = H[-1,-1] = 1
+        #Calculate U
+        I_plus = eye(self.Nx) + 1j * dt / 2. * H
+        I_minus = eye(self.Nx) - 1j * dt / 2. * H
+        U = inv(I_minus).dot(I_plus)
+       
+        #Iterate over time and append psi value to a list
+        self.psi_list = []
+        for t in self.t_array:
+            self.psi = U.dot(self.psi)
+            self.psi[0] = self.psi[-1] = 0
+            self.psi_list.append(np.abs(self.psi))        
                 
 # This is an example of how the code is used        
 Env1 = Environment()

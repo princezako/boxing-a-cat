@@ -22,7 +22,8 @@ template_project_PH3010_advanced_python/
 │   └── example_package/
 │       ├── __init__.py
 │       ├── command_line_interface.py
-│       └── example.py
+│       ├── example.py
+│       └── boxing_cat_solver.py
 └── tests/
         └── test_example.py
 ```

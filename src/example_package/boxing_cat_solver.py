@@ -45,9 +45,10 @@ class Environment():
             c = PotentialModifier(self.x.array[0])
             if c != float(c) and c!=int(c):
                 raise TypeError("Your choice should not be an array.") #to make sure that the program does not return an array
-               
+            elif "x" not in string:
+                raise TypeError("Your choice should contain 'x'.")
             self.potential = PotentialModifier(self.x_array)
-           
+
         else:
             raise TypeError("Your potential should be a string, dependent on x, such as x**2 or np.sin(x) etc.") #if the choice of potential is not a string
            

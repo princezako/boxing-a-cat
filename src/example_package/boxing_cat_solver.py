@@ -5,7 +5,7 @@ from findiff import FinDiff
 from scipy.sparse.linalg import inv
 from scipy.sparse import eye, diags
 import matplotlib.animation as animation
-from tqdm.notebook import trange, tqdm
+from tqdm import trange, tqdm
 from time import sleep
 
 plt.rcParams["axes.labelsize"] = 16

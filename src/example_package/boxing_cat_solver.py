@@ -28,11 +28,11 @@ class Environment():
         # want a simple potential well
         self.potential = np.array(len(self.x_array)*[0])
    
-    def zero_potential(self):
+    def Zero_potential(self):
         # This is a simple function that sets everything to zero
         self.potential = np.array(len(self.x_array)*[0])
    
-    def WritePotential(self,string):
+    def Write_potential(self,string):
         if string == str(string): # Error team needs to write a response if this isn't true
             # Error and annotation team also need to make sure that it's clear people only need to input functions like
             # "x**2" and "np.sin(x)". x must be included and it is run as code so it will give a lot of errors if misused.
@@ -79,7 +79,7 @@ class Environment():
         writergif = animation.PillowWriter()
         ani.save("new_gif.gif", writer=writergif)
    
-    def solve_schrodinger(self, N = 100):
+    def Solve_schrodinger(self, N = 100):
         self.psi = np.exp(-(self.x_array+2)**2)
        
         #Calculate derivatives
@@ -105,6 +105,69 @@ class Environment():
             self.psi = U.dot(self.psi)
             self.psi[0] = self.psi[-1] = 0
             self.psi_list.append(np.abs(self.psi))        
+
+    def Draw_potential(self,V_max=2):
+        # Variable setup
+        self.Nv = self.Nx
+        self.V_max = V_max
+        self.potential = np.array(len(self.x_array)*[0]).astype(float)
+        self.held = False
+        self.old_mouse_x, self.old_mouse_y = 0,0
+        # Setting up window / Canvas section
+        MainWindow = tk.Tk()
+        self.canvas = tk.Canvas(MainWindow,bg="#ffffff",bd=0)
+        self.canvas.place(height = self.Nv, width = self.Nx,x=0,y=0)
+        for i in range(self.Nx):
+            globals()["line{}".format(i)] = self.canvas.create_line(i,self.Nv,i,self.Nv-2,width=1,fill="orange")
+        
+        def ResizeLine(x,new_y):
+            self.canvas.delete(globals()["line{}".format(x)])
+            globals()["line{}".format(x)] = self.canvas.create_line(x,self.Nv,x,self.Nv-new_y,width=1,fill="orange")
+        def Clicked(event):
+            # In case user clicks once without moving mouse
+            ResizeLine(self.new_mouse_x,self.new_mouse_y)
+            self.potential[self.new_mouse_x] = V_max * self.new_mouse_y / self.Nv
+            # Required so draw program only appends while mouse held
+            self.held = True
+        def UnClicked(event):
+            self.held = False # Required to ensure program doesn't run without held mouse
+        def MousePosition(event):
+            # Gets new mouse position clicked or not, essential for program to work
+            self.new_mouse_x, self.new_mouse_y = event.x, self.Nv - event.y
+            # Ensures no negative x-values if mouse is dragged to left
+            if self.new_mouse_x < 0:
+                self.held = False
+            if self.held == True:
+                if 0 < self.new_mouse_x < self.Nx-1:
+                    ResizeLine(self.new_mouse_x,self.new_mouse_y)
+                    self.potential[self.new_mouse_x] = V_max * self.new_mouse_y / self.Nv
+                    print("appended {},{}".format(self.new_mouse_x,self.new_mouse_y))
+                if np.abs(self.new_mouse_x - self.old_mouse_x) > 1 and 0 < self.old_mouse_x < self.Nx-1:
+                    slope = float((self.new_mouse_y - self.old_mouse_y)/(self.new_mouse_x - self.old_mouse_x))
+                    y_intercept = float(self.old_mouse_y - (slope * self.old_mouse_x))
+                    def Internal_Draw_Func(x):
+                        return slope*x + y_intercept
+                    for i in range(1, np.abs(self.new_mouse_x - self.old_mouse_x)):
+                        if self.new_mouse_x > self.old_mouse_x:
+                            if self.old_mouse_x + i == self.Nx:
+                                break
+                            ResizeLine(self.old_mouse_x+i,int(Internal_Draw_Func(self.old_mouse_x+i)))
+                            self.potential[self.old_mouse_x + i] = V_max * Internal_Draw_Func(self.old_mouse_x + i) / self.Nv
+                        if self.new_mouse_x < self.old_mouse_x:
+                            if self.old_mouse_x - i == -1:
+                                break
+                            ResizeLine(self.old_mouse_x-i,int(Internal_Draw_Func(self.old_mouse_x-i)))
+                            self.potential[self.old_mouse_x - i] = V_max * Internal_Draw_Func(self.old_mouse_x - i) / self.Nv
+            # swaps new to old
+            self.old_mouse_x, self.old_mouse_y = self.new_mouse_x, self.new_mouse_y
+            
+        #self.canvas.pack(anchor=tk.CENTER, expand=True)
+        self.canvas.bind("<Motion>",MousePosition)
+        self.canvas.bind("<ButtonPress>",Clicked)
+        self.canvas.bind("<ButtonRelease>",UnClicked)
+        MainWindow.title("Draw Potential")
+        MainWindow.geometry("{}x{}".format(self.Nx,self.Nv))
+        MainWindow.mainloop()
                
 # This is an example of how the code is used        
 Env1 = Environment()

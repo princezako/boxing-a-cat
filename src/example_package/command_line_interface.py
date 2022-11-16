@@ -1,6 +1,6 @@
 import argparse
 
-from example_package.example import add_one
+from example_package.boxing_cat_solver import boxing_cat_solver
 
 
 def main():

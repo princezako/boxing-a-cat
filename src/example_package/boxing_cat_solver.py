@@ -5,6 +5,8 @@ from findiff import FinDiff
 from scipy.sparse.linalg import inv
 from scipy.sparse import eye, diags
 import matplotlib.animation as animation
+from tqdm import trange, tqdm
+from time import sleep
 
 plt.rcParams["axes.labelsize"] = 16
 
@@ -104,7 +106,12 @@ class Environment():
         for t in self.t_array:
             self.psi = U.dot(self.psi)
             self.psi[0] = self.psi[-1] = 0
-            self.psi_list.append(np.abs(self.psi))        
+            self.psi_list.append(np.abs(self.psi))  
+            
+    for i in trange(3, desc='1st loop'):
+        for j in tqdm(range(100), desc='2nd loop'):
+           sleep(0.01)    
+        
 
     def Draw_potential(self,V_max=2):
         # Variable setup

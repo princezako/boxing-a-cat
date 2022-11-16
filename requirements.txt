@@ -6,3 +6,7 @@ tk
 csv
 findiff
 matplotlib
+tqdm
+trange
+time
+sleep

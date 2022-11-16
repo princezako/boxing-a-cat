@@ -42,7 +42,7 @@ class Environment():
             code = """def PotentialModifier(x):
     return """ + string
             exec(code, globals())
-            c = PotentialModifier(self.x.array[0])
+            c = PotentialModifier(self.x_array[0])
             if c != float(c) and c!=int(c):
                 raise TypeError("Your choice should not be an array.") #to make sure that the program does not return an array
             elif "x" not in string:

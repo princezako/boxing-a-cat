@@ -2,3 +2,7 @@ numpy
 scipy
 pytest
 pytest-cov
+tk
+csv
+findiff
+matplotlib

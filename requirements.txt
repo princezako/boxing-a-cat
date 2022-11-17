@@ -8,5 +8,5 @@ findiff
 matplotlib
 tqdm
 trange
-time
+python-time
 sleep

@@ -3,7 +3,7 @@ scipy
 pytest
 pytest-cov
 tk
-csv
+python-csv
 findiff
 matplotlib
 tqdm

@@ -7,6 +7,7 @@ from scipy.sparse import eye, diags
 import matplotlib.animation as animation
 from tqdm import trange, tqdm
 from time import sleep
+import tkinter as tk
 import csv
 
 plt.rcParams["axes.labelsize"] = 16

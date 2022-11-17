@@ -1,9 +1,8 @@
 # Template repository for PH3010 Advanced Python
 
-This is a template repository demonstrating how to package a python project. The directory is structured as follows:
-```
-Test test test test
-3298573253290
+This is a repository demonstrating how to use the boxing-a-cat package for python.
+
+The package takes input values for the Schrödinger equation and provides solutions in the form of an array of values which can then be plotted onto a graph to visualise how the potential and the value wavefunction probability interact. To start the package you have to define an enviroment in which the equation can be solved. One should do this with the function Env1 = Enviroment(Arguments) where Env1 can be replaced with a generic name for the current trial of the package. There are a number of variables you can change such as the potential function which can be edited with the function Env1.Write_Potential("f(x)") in which f(x) is a function of x that must have a single solution for a given input otherwise the package will fail. Alternatively, there is the option to draw the potential with the function Env1.Draw_Potential() which brings up a box in a window that allows you to draw the potential function of the wavefunction by free hand. You can also reset the potential to its original value with the function Env1.Zero_Potential. When you are happy with the conditions set, you then use Env1.Solve-Schrodinger(Args) to start the computation of the solutions. This outputs an array of values that are solutions to your customizable wavefunction which can also be visualised on a graph using the function Env1.Make_gif() which provides a moving visualisation of the solutions compared to the potential function. 
 
 template_project_PH3010_advanced_python/
 ├── .gitignore
@@ -22,6 +21,7 @@ template_project_PH3010_advanced_python/
 │   └── example_package/
 │       ├── __init__.py
 │       ├── command_line_interface.py
+│       ├── boxing_cat_solver.py    <-------- Package
 │       └── example.py
 └── tests/
         └── test_example.py

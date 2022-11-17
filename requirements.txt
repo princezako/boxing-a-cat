@@ -3,10 +3,10 @@ scipy
 pytest
 pytest-cov
 tk
-csv
+python-csv
 findiff
 matplotlib
 tqdm
 trange
-time
+python-time
 sleep

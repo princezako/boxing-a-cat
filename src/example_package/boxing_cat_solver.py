@@ -7,6 +7,7 @@ from scipy.sparse import eye, diags
 import matplotlib.animation as animation
 from tqdm import trange, tqdm
 from time import sleep
+import csv
 
 plt.rcParams["axes.labelsize"] = 16
 
@@ -54,7 +55,7 @@ class Environment():
         else:
             raise TypeError("Your potential should be a string, dependent on x, such as x**2 or np.sin(x) etc.") #if the choice of potential is not a string
            
-    def Make_gif(self):
+    def Make_gif(self,file_name="gif"):
         fig, ax = plt.subplots()
        
         ax.set_xlabel("x [arb units]")
@@ -79,7 +80,7 @@ class Environment():
        
         ani = animation.FuncAnimation(fig, run, self.psi_list, interval = 20, blit = True)
         writergif = animation.PillowWriter()
-        ani.save("new_gif.gif", writer=writergif)
+        ani.save("{}.gif".format(file_name), writer=writergif)
    
     def Solve_schrodinger(self, N = 100):
         self.psi = np.exp(-(self.x_array+2)**2)
@@ -111,7 +112,11 @@ class Environment():
     for i in trange(3, desc='1st loop'):
         for j in tqdm(range(100), desc='2nd loop'):
            sleep(0.01)    
-        
+
+    def Write_csv(self,file_name="Schrodinger_data"):
+        with open("{}.csv".format(file_name),"a",newline="") as file:
+            csv_writer=csv.writer(file)
+            csv_writer.writerow(self.psi_list)        
 
     def Draw_potential(self,V_max=2):
         # Variable setup
@@ -177,8 +182,10 @@ class Environment():
         MainWindow.mainloop()
                
 # This is an example of how the code is used        
-Env1 = Environment()
-print(Env1.potential)
-Env1.zero_potential()
-Env1.WritePotential("x**2")
-print(Env1.potential)
+#Env1 = Environment()
+#print(Env1.potential)
+#Env1.zero_potential()
+#Env1.WritePotential("x**2")
+#Env1.Solve_schrodinger()
+#Env1.Write_csv(file_name="My_schrodinger_data")
+#Env1.Make_gif(file_name="The_gif")

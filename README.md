@@ -7,6 +7,9 @@ The package takes input values for the Schrödinger equation and provides soluti
 To import package:
 from Group_E_Package import boxing_cat_solver
 
+This package is uploaded on TestPYPI. To install the package visit:
+https://test.pypi.org/project/boxing-cat-solver/0.0.1/
+
 
 template_project_PH3010_advanced_python/
 ├── .gitignore
